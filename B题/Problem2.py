@@ -1,4 +1,22 @@
+import scipy.stats as stats
 from itertools import product
+
+# 定义参数
+p0 = 0.10  # 声明的次品率
+confidence_level_95 = 0.95  # 95%置信水平
+confidence_level_90 = 0.90  # 90%置信水平
+sample_size = 1000  # 样本量
+
+
+# 计算临界值
+def calculate_critical_value(sample_size, p0, confidence_level):
+    k = stats.binom.ppf(confidence_level, sample_size, p0)
+    return k
+
+
+# 给定样本量为1000份的情况下的临界值
+critical_value_95 = calculate_critical_value(sample_size, p0, 1 - 0.05)
+critical_value_90 = calculate_critical_value(sample_size, p0, 0.90)
 
 # 表 1 中的数据
 situations = [
@@ -82,9 +100,11 @@ for situation in situations:
             best_profit = profit
             best_decision = decision
 
-        print(f"决策: {decision}")
+        # 打印每个决策组合的结果
+        print(f"情况{situation['situation']} - 决策: {decision}")
         print(f"总成本: {total_costs:.2f}")
         print(f"利润: {profit:.2f}\n")
 
-    print(f"最佳决策: {best_decision}")
+    # 打印最佳决策
+    print(f"情况{situation['situation']} - 最佳决策: {best_decision}")
     print(f"最大利润: {best_profit:.2f}\n")
